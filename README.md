@@ -2,6 +2,9 @@
 
 **Локальный диктофон с распознаванием речи и AI‑резюмированием**  
 Полностью офлайн, конфиденциально, без отправки данных в облако.
+## 📥 Скачать
+
+**[Скачать установщик GolosovedAI_Setup.exe](https://github.com/rusanovw-dot/GolosovedAI/releases/download/v1.0.0/GolosovedAI_Setup.exe)**
 ## Окно программы
 <img width="1084" height="818" alt="Безымянный" src="https://github.com/user-attachments/assets/181e1c28-1416-4c44-9c88-df1efe3c5963" />
 
