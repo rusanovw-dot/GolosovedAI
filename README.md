@@ -111,3 +111,5 @@ C:\Users\Имя_пользователя\AppData\Roaming\GolosovedAI
 ## 📦 Установка
 
 Скачайте установщик `GolosovedAI_Setup.exe` из раздела [Releases](https://github.com/rusanovw-dot/GolosovedAI/releases) и запустите его. Следуйте инструкциям на экране.
+
+**Программа добавлена в каталог [freesoft.ru](https://freesoft.ru)**
