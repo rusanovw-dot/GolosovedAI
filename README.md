@@ -40,7 +40,7 @@
 
 ## 📖 Как начать работу
 
-1. **Установите .NET 8 Desktop Runtime** (если программа не запускается, скачайте с [сайта Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)).
+1. **Установите .NET 8 Desktop Runtime** (если программа не запускается, скачайте с [сайта Microsoft](https://dotnet.microsoft.com/ru-ru/download/dotnet/thank-you/sdk-8.0.424-windows-x64-installer)).
 2. **Скачайте модель распознавания (Whisper)** в разделе «Настройки модели распознавания».
 3. **Скачайте AI‑модель (Qwen)** в разделе «AI‑Резюмирование».
 4. **Выберите файл** или нажмите «Запись».
