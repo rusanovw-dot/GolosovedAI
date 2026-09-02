@@ -1,0 +1,123 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Заголовок окна -->
+    <sys:String x:Key="WindowTitle">Голосовед ИИ — локальный диктофон и расшифровщик</sys:String>
+
+    <!-- Левая панель: Заголовок блока -->
+    <sys:String x:Key="Label_Files">ФАЙЛЫ</sys:String>
+    <sys:String x:Key="Label_Recording">ЗАПИСЬ</sys:String>
+    <sys:String x:Key="Label_ModelSettings">НАСТРОЙКИ МОДЕЛИ РАСПОЗНАВАНИЯ</sys:String>
+    <sys:String x:Key="Label_AISummary">AI-РЕЗЮМИРОВАНИЕ</sys:String>
+    <sys:String x:Key="Label_SaveAudio">СОХРАНЕНИЕ АУДИО</sys:String>
+
+    <!-- Кнопки и чекбоксы -->
+    <sys:String x:Key="Button_SelectFile">📁 Выбрать и распознать</sys:String>
+    <sys:String x:Key="CheckBox_SaveAudioOriginal">Сохранять аудио-оригинал</sys:String>
+    <sys:String x:Key="Radio_SystemSound">Системный звук</sys:String>
+    <sys:String x:Key="Radio_Microphone">Микрофон</sys:String>
+    <sys:String x:Key="Button_Record">▶ Запись</sys:String>
+    <sys:String x:Key="Button_Stop">⏹ Стоп</sys:String>
+    <sys:String x:Key="CheckBox_SaveAudioOnRecord">Сохранять аудио при записи</sys:String>
+    <sys:String x:Key="Button_Download">Скачать</sys:String>
+    <sys:String x:Key="Button_Browse">Обзор</sys:String>
+    <sys:String x:Key="Button_Refresh">🔄</sys:String>
+
+    <!-- Подписи и прочее -->
+    <sys:String x:Key="Label_RecognitionLanguage">Язык распознавания:</sys:String>
+    <sys:String x:Key="Hint_DefaultAudioFolder">(оставьте пустым для папок по умолчанию)</sys:String>
+    <sys:String x:Key="ToolTip_AudioFolder">Если оставить пустым: для Файлов — папка источника, для Записи — папка Records в папке программы.</sys:String>
+
+    <!-- Вкладки -->
+    <sys:String x:Key="Tab_FullText">📄 Полный текст</sys:String>
+    <sys:String x:Key="Tab_AISummary">🧠 AI-Резюме</sys:String>
+    <sys:String x:Key="Tab_Help">❓ Справка</sys:String>
+
+    <!-- Плейсхолдеры -->
+    <sys:String x:Key="Placeholder_Result">Результат расшифровки появится здесь. Вы также можете перетащить аудио-, видеофайл или текстовый документ TXT, PDF прямо в это окно для распознавания.</sys:String>
+    <sys:String x:Key="Placeholder_Summary">Здесь появится AI-резюме после нажатия кнопки «Создать AI-резюме», выберите подходящий Шаблон</sys:String>
+
+    <!-- Нижняя панель -->
+    <sys:String x:Key="Button_GenerateSummary">🧠 Создать AI-резюме</sys:String>
+    <sys:String x:Key="Label_Template">Шаблон:</sys:String>
+    <sys:String x:Key="Label_Format">Формат:</sys:String>
+    <sys:String x:Key="Button_SaveAs">💾 Сохранить как...</sys:String>
+
+    <!-- Шаблоны ComboBox -->
+    <sys:String x:Key="Template_Meeting">Совещание</sys:String>
+    <sys:String x:Key="Template_Interview">Интервью</sys:String>
+    <sys:String x:Key="Template_Lecture">Лекция</sys:String>
+    <sys:String x:Key="Template_General">Общий</sys:String>
+
+    <!-- Форматы (оставим как есть, они и так на английском) -->
+    <!-- Статус -->
+    <sys:String x:Key="Status_Default">Ожидание файла...</sys:String>
+    <sys:String x:Key="Status_Label">Статус:</sys:String>
+
+    <!-- Added program strings -->
+    <sys:String x:Key="Title_Error">Ошибка</sys:String>
+    <sys:String x:Key="Title_Info">Информация</sys:String>
+    <sys:String x:Key="Title_Success">Успешно</sys:String>
+    <sys:String x:Key="Dialog_OpenMediaFilter">Медиафайлы, текст и PDF|*.mp4;*.avi;*.mov;*.mkv;*.wmv;*.mp3;*.wav;*.m4a;*.flac;*.txt;*.pdf|Все файлы|*.*</sys:String>
+    <sys:String x:Key="Dialog_OpenMediaTitle">Выберите видеофайл, аудиофайл или текстовый документ</sys:String>
+
+    <sys:String x:Key="Status_LoadingTextFile">Загрузка текстового файла...</sys:String>
+    <sys:String x:Key="Result_FileEmpty">Файл пуст.</sys:String>
+    <sys:String x:Key="Status_ReadyEmptyFile">Готово (пустой файл)</sys:String>
+    <sys:String x:Key="Status_TextFileLoaded">Текстовый файл загружен: {0}</sys:String>
+    <sys:String x:Key="Error_ReadTextFile">Не удалось прочитать текстовый файл: {0}</sys:String>
+    <sys:String x:Key="Status_ErrorReadingTxt">Ошибка чтения TXT</sys:String>
+
+    <sys:String x:Key="Status_ExtractingPdf">Извлечение текста из PDF...</sys:String>
+    <sys:String x:Key="Result_PdfNoText">PDF-файл не содержит текста (возможно, это отсканированный PDF).</sys:String>
+    <sys:String x:Key="Status_ReadyEmptyPdf">Готово (пустой PDF)</sys:String>
+    <sys:String x:Key="Status_PdfTextLoaded">Текст из PDF загружен: {0}</sys:String>
+    <sys:String x:Key="Error_ExtractPdf">Не удалось извлечь текст из PDF: {0}</sys:String>
+    <sys:String x:Key="Status_ErrorReadingPdf">Ошибка чтения PDF</sys:String>
+
+    <sys:String x:Key="Status_Converting">Конвертация...</sys:String>
+    <sys:String x:Key="DefaultFileSuffix_Audio">_audio.wav</sys:String>
+    <sys:String x:Key="Status_AudioSavedAndRecognizing">Аудио сохранено: {0}. Идёт распознавание...</sys:String>
+    <sys:String x:Key="Status_RecognizingInProgress">Идёт распознавание...</sys:String>
+    <sys:String x:Key="Status_RecognizingSpeech">Распознавание речи...</sys:String>
+    <sys:String x:Key="Status_RecognizingProgress">Распознавание речи... {0}%</sys:String>
+    <sys:String x:Key="Result_SpeechNotRecognized">Речь не распознана.</sys:String>
+    <sys:String x:Key="Status_DoneAudioSaved">Готово. Аудио сохранено: {0}</sys:String>
+    <sys:String x:Key="Status_Done">Готово</sys:String>
+    <sys:String x:Key="Status_RecognitionCancelled">Распознавание отменено.</sys:String>
+
+    <sys:String x:Key="Message_SelectModelFirst">Сначала выберите модель из списка.</sys:String>
+    <sys:String x:Key="Download_AlreadyDownloaded">Уже скачана</sys:String>
+    <sys:String x:Key="Status_ModelAlreadyDownloaded">Модель {0} уже загружена.</sys:String>
+    <sys:String x:Key="Model_NotDownloaded">Модель не скачана. Нажмите 'Скачать'</sys:String>
+    <sys:String x:Key="Model_Downloaded">Модель скачана</sys:String>
+
+    <sys:String x:Key="Message_ConfirmExit">Вы уверены, что хотите выйти?</sys:String>
+    <sys:String x:Key="Message_OK">ОК</sys:String>
+    <sys:String x:Key="Message_Cancel">Отмена</sys:String>
+    <sys:String x:Key="Message_Button_Download">Скачать</sys:String>
+
+    <sys:String x:Key="Error_AudioConversion">Ошибка при конвертации:\n{0}</sys:String>
+    <sys:String x:Key="Error_FFmpegNotFound">FFmpeg не найден: {0}</sys:String>
+    <sys:String x:Key="Error_FFmpegErrorMsg">Ошибка FFmpeg:\n{0}</sys:String>
+    <sys:String x:Key="Error_FFmpegTimeout">FFmpeg выполнялся слишком долго и был остановлен.</sys:String>
+    <sys:String x:Key="Error_FFmpegExitedWithCode">FFmpeg завершился с ошибкой (код {0}):\n{1}</sys:String>
+    <sys:String x:Key="Error_Generic">Ошибка: {0}</sys:String>
+
+    <sys:String x:Key="DefaultFileName_Transcription">Распознанный текст</sys:String>
+    <sys:String x:Key="DefaultFileName_Summary">Резюме</sys:String>
+    <sys:String x:Key="Status_SavingAudio">Сохранение аудио...</sys:String>
+    <sys:String x:Key="Message_FileSaved">Файл сохранён: {0}</sys:String>
+    <sys:String x:Key="Error_SaveFile">Ошибка при сохранении файла: {0}</sys:String>
+
+    <sys:String x:Key="MicrophoneList_Updated">Список микрофонов обновлён</sys:String>
+    <sys:String x:Key="Recognition_Language_Auto">Авто</sys:String>
+    <sys:String x:Key="Message_NoTextForSummary">Нет текста для резюмирования.</sys:String>
+    <sys:String x:Key="Message_NoData">Нет данных для отображения.</sys:String>
+    <sys:String x:Key="Prompt_DownloadModel">Скачать модель {0}? (размер {1})\nЭто может занять несколько минут.</sys:String>
+    <sys:String x:Key="Status_ModelDownloading">Скачивание...</sys:String>
+    <sys:String x:Key="Download_Error">Ошибка скачивания</sys:String>
+
+    <!-- Языки распознавания (они и так короткие) -->
+</ResourceDictionary>

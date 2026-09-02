@@ -1,0 +1,772 @@
+﻿<Window x:Class="GolosovedAI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GolosovedAI"
+        mc:Ignorable="d"
+        Title="{DynamicResource WindowTitle}"
+        Icon="golosoved.ico"
+        Height="830" Width="1100"
+        AllowDrop="True" Drop="Window_Drop"
+        Loaded="MainWindow_Loaded">
+    <!-- (Window.Resources и стили оставляем без изменений) -->
+    <Window.Resources>
+        <!-- Переопределяем стандартные кисти для тёмной темы ComboBox -->
+        <SolidColorBrush x:Key="ComboBox.Static.Background" Color="#333337"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Border" Color="#3F3F46"/>
+        <SolidColorBrush x:Key="ComboBox.Static.Foreground" Color="White"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Background" Color="#55555A"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#77777C"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Foreground" Color="White"/>
+        <SolidColorBrush x:Key="ComboBox.DropDown.Background" Color="#333337"/>
+        <SolidColorBrush x:Key="ComboBox.DropDown.Border" Color="#55555A"/>
+        <SolidColorBrush x:Key="ComboBoxItem.Background" Color="#333337"/>
+        <SolidColorBrush x:Key="ComboBoxItem.Foreground" Color="White"/>
+        <SolidColorBrush x:Key="ComboBoxItem.MouseOver.Background" Color="#55555A"/>
+        <SolidColorBrush x:Key="ComboBoxItem.MouseOver.Foreground" Color="White"/>
+        <SolidColorBrush x:Key="ComboBoxItem.Selected.Background" Color="#4A4A4A"/>
+        <SolidColorBrush x:Key="ComboBoxItem.Selected.Foreground" Color="White"/>
+        <Style TargetType="ComboBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#333337"/>
+            <Setter Property="BorderBrush" Value="#3F3F46"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="1"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  Focusable="False"
+                                  ClickMode="Press"
+                                  Content="{TemplateBinding SelectionBoxItem}"
+                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="20"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ContentPresenter x:Name="ContentSite"
+                                                          IsHitTestVisible="False"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          VerticalAlignment="Center"
+                                                          HorizontalAlignment="Left"
+                                                          Margin="3,0,0,0"
+                                                          TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                                <Path x:Name="Arrow"
+                                              Grid.Column="1"
+                                              Fill="White"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <Popup x:Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True"
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                                <Grid x:Name="DropDown"
+                              SnapsToDevicePixels="True"
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder"
+                                    Background="#333337"
+                                    BorderBrush="#55555A"
+                                    BorderThickness="1"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#333337"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Border" Background="{TemplateBinding Background}" Padding="3">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#55555A"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#4A4A4A"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#3E3E42"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                        CornerRadius="5" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#1E1E1E">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= ЛЕВАЯ ПАНЕЛЬ ================= -->
+        <Border Background="#252526" BorderBrush="#3F3F46" BorderThickness="0,0,1,0" Grid.Column="0">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок с иконкой и переключателем языков (флаги остаются без локализации) -->
+                <StackPanel Grid.Row="0" Margin="0,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="golosoved.ico" Width="80" Height="80" Margin="0,0,10,0"/>
+                        <TextBlock Text="Голосовед ИИ" Foreground="White" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="90,-20,0,0">
+                        <Button x:Name="LangRuButton" Width="40" Height="40" Margin="0" 
+                                Click="LangRuButton_Click" ToolTip="Русский" 
+                                Background="Transparent" BorderBrush="Transparent" BorderThickness="2">
+                            <Image Source="Resources/Flags/ru.png" Width="20" Height="20"/>
+                        </Button>
+                        <Button x:Name="LangEnButton" Width="40" Height="40" Margin="0" 
+                                Click="LangEnButton_Click" ToolTip="English" 
+                                Background="Transparent" BorderBrush="Transparent" BorderThickness="2">
+                            <Image Source="Resources/Flags/en.png" Width="20" Height="20"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Блок: ФАЙЛЫ -->
+                <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                    <Border Height="1" Background="#DA3633" Opacity="0.4" Margin="0,0,0,8"/>
+                    <TextBlock Text="{DynamicResource Label_Files}" Foreground="#DA3633" FontSize="12" FontWeight="Bold" Margin="0,5,0,8"/>
+                    <Button x:Name="ButtonSelectFile" Content="{DynamicResource Button_SelectFile}" Background="#007ACC" Foreground="White" 
+                            Padding="10,8" BorderThickness="0" HorizontalAlignment="Stretch" Click="TestButton_Click"/>
+                    <CheckBox x:Name="SaveAudioGlobalCheckBox" Content="{DynamicResource CheckBox_SaveAudioOriginal}" 
+                              Foreground="White" Margin="0,8,0,0"/>
+                </StackPanel>
+
+                <!-- Блок: ЗАПИСЬ -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,15">
+                    <Border Height="1" Background="#DA3633" Opacity="0.4" Margin="0,0,0,8"/>
+                    <TextBlock Text="{DynamicResource Label_Recording}" Foreground="#DA3633" FontSize="12" FontWeight="Bold" Margin="0,5,0,8"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <RadioButton x:Name="RadioSystemSound" Content="{DynamicResource Radio_SystemSound}" IsChecked="True" 
+                                     Foreground="White" Margin="0,0,15,0" GroupName="Source"/>
+                        <RadioButton x:Name="RadioMicrophone" Content="{DynamicResource Radio_Microphone}" Foreground="White" GroupName="Source"/>
+                    </StackPanel>
+
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="MicrophoneCombo" Background="#333337" Foreground="White" BorderBrush="#3F3F46" Height="30"
+                                  HorizontalContentAlignment="Stretch">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" Foreground="White" HorizontalAlignment="Stretch"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Grid.Column="1" Content="{DynamicResource Button_Refresh}" Margin="5,0,0,0" Padding="8,4" 
+                                Background="#3E3F46" Foreground="White" BorderThickness="0" Click="RefreshMicrophones_Click"/>
+                    </Grid>
+
+                    <UniformGrid Columns="2" Rows="1" Margin="0,5,0,8">
+                        <Button x:Name="ButtonStartRecording" Content="{DynamicResource Button_Record}" Background="#2EA043" Foreground="White" 
+                                Padding="0,8" Margin="0,0,4,0" FontWeight="Bold" BorderThickness="0" Click="StartRecording_Click"/>
+                        <Button Content="{DynamicResource Button_Stop}" Background="#DA3633" Foreground="White" 
+                                Padding="0,8" Margin="4,0,0,0" FontWeight="Bold" BorderThickness="0" Click="StopRecording_Click"/>
+                    </UniformGrid>
+
+                    <CheckBox x:Name="SaveAudioRecordingCheckBox" Content="{DynamicResource CheckBox_SaveAudioOnRecord}" 
+                              Foreground="White" Margin="0,0,0,0"/>
+                </StackPanel>
+
+                <!-- Блок: Модель распознавания -->
+                <StackPanel Grid.Row="3" Margin="0,0,0,20">
+                    <Border Height="1" Background="#DA3633" Opacity="0.4" Margin="0,0,0,8"/>
+                    <TextBlock Text="{DynamicResource Label_ModelSettings}" Foreground="#DA3633" FontSize="12" FontWeight="Bold" Margin="0,5,0,8"/>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="ModelCombo" Background="#333337" Foreground="White" BorderBrush="#3F3F46" Height="30" SelectionChanged="ModelCombo_SelectionChanged">
+                            <ComboBoxItem Content="Base       (142 MB)" Tag="ggml-base.bin"/>
+                            <ComboBoxItem Content="Small      (488 MB)" Tag="ggml-small.bin"/>
+                            <ComboBoxItem Content="Medium   (1.5 GB)" Tag="ggml-medium.bin"/>
+                            <ComboBoxItem Content="Large-v2  (3.0 GB)" Tag="ggml-large-v2.bin"/>
+                            <ComboBoxItem Content="Large-v3  (3.0 GB)" Tag="ggml-large-v3.bin"/>
+                        </ComboBox>
+                        <Button x:Name="ButtonDownloadModel" Grid.Column="1" Content="{DynamicResource Button_Download}" Margin="5,0,0,0" Padding="8,4" 
+                                Background="#3E3E42" Foreground="White" BorderThickness="0" Click="DownloadModel_Click"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{DynamicResource Label_RecognitionLanguage}" Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="LanguageCombo" Grid.Column="1" Height="30" Background="#333337" Foreground="White" BorderBrush="#3F3F46">
+                            <ComboBoxItem Content="Авто" IsSelected="True" Tag="auto"/>
+                            <ComboBoxItem Content="RU" Tag="ru"/>
+                            <ComboBoxItem Content="EN" Tag="en"/>
+                            <ComboBoxItem Content="DE" Tag="de"/>
+                            <ComboBoxItem Content="FR" Tag="fr"/>
+                            <ComboBoxItem Content="ES" Tag="es"/>
+                        </ComboBox>
+                        <TextBlock x:Name="DownloadProgressText" Grid.Column="2" Text="" Foreground="#4CAF50" 
+                                   VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold"/>
+                    </Grid>
+                    <TextBlock x:Name="WhisperStatusText" Text="" Foreground="#FFB74D" FontSize="11" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Блок: AI-резюмирование -->
+                <StackPanel Grid.Row="4" Margin="0,0,0,15">
+                    <Border Height="1" Background="#DA3633" Opacity="0.4" Margin="0,0,0,8"/>
+                    <TextBlock Text="{DynamicResource Label_AISummary}" Foreground="#DA3633" FontSize="12" FontWeight="Bold" Margin="0,5,0,8"/>
+
+                    <Grid Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox x:Name="AIModelCombo" Background="#333337" Foreground="White" BorderBrush="#3F3F46" Height="30"
+                                  SelectionChanged="AIModelCombo_SelectionChanged"/>
+                        <Button x:Name="ButtonDownloadAIModel" Grid.Column="1" Content="{DynamicResource Button_Download}" Margin="5,0,0,0" Padding="8,4" 
+                                Background="#3E3E42" Foreground="White" BorderThickness="0" Click="DownloadAIModel_Click"/>
+                    </Grid>
+                    <TextBlock x:Name="AIDownloadProgress" Text="" Foreground="#4CAF50" FontWeight="Bold" FontSize="12" Margin="0,2,0,0"/>
+                    <TextBlock x:Name="AIStatusText" Text="" Foreground="#FFB74D" FontSize="11" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <!-- Блок: СОХРАНЕНИЕ АУДИО -->
+                <StackPanel Grid.Row="5" Margin="0,0,0,15">
+                    <Border Height="1" Background="#DA3633" Opacity="0.4" Margin="0,0,0,8"/>
+                    <TextBlock Text="{DynamicResource Label_SaveAudio}" Foreground="#DA3633" FontSize="12" FontWeight="Bold" Margin="0,5,0,8"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="AudioFolderTextBox" 
+                                 Text="" 
+                                 Foreground="White" 
+                                 Background="#333337" 
+                                 BorderBrush="#3F3F46" 
+                                 BorderThickness="1" 
+                                 Padding="5,2" 
+                                 Height="30"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="{DynamicResource ToolTip_AudioFolder}"/>
+                        <Button Grid.Column="1" Content="{DynamicResource Button_Browse}" 
+                                Margin="5,0,0,0" 
+                                Padding="10,4" 
+                                Background="#3E3F46" 
+                                Foreground="White" 
+                                BorderThickness="0"
+                                Click="SelectAudioFolder_Click"/>
+                    </Grid>
+                    <TextBlock Text="{DynamicResource Hint_DefaultAudioFolder}" 
+                               Foreground="#858585" FontSize="10" Margin="0,2,0,0"/>
+                    <Border Height="1" Background="#DA3633" Opacity="0.4" Margin="0,10,0,8"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ================= ПРАВАЯ РАБОЧАЯ ЗОНА ================= -->
+        <Grid Grid.Column="1" Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Вкладки + кнопка темы -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TabControl x:Name="MainTabControl" Grid.Column="0" Background="#1E1E1E" BorderBrush="#3F3F46" BorderThickness="1"
+                            SelectionChanged="MainTabControl_SelectionChanged">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Foreground" Value="#AAAAAA"/>
+                            <Setter Property="Background" Value="#252526"/>
+                            <Setter Property="BorderBrush" Value="#3F3F46"/>
+                            <Setter Property="BorderThickness" Value="0,0,1,0"/>
+                            <Setter Property="Padding" Value="12,6"/>
+                            <Setter Property="FontWeight" Value="Normal"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                                            <ContentPresenter x:Name="ContentSite"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          ContentSource="Header"
+                                          TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="#333337"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="#3E3E42"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+
+                    <TabItem Header="{DynamicResource Tab_FullText}">
+                        <Grid Background="#121212">
+                            <TextBox x:Name="ResultTextBox"
+                                     Background="#121212" Foreground="White" BorderBrush="#3F3F46"
+                                     TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" Padding="15"
+                                     VerticalScrollBarVisibility="Auto" IsReadOnly="True"
+                                     AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver"
+                                     PreviewDrop="TextBox_PreviewDrop"
+                                     TextChanged="ResultTextBox_TextChanged"/>
+                            <TextBlock x:Name="PlaceholderText"
+                                       Text="{DynamicResource Placeholder_Result}"
+                                       Foreground="#66FFFFFF" FontSize="14"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextWrapping="Wrap" TextAlignment="Center" MaxWidth="400" Margin="20"
+                                       IsHitTestVisible="False" Visibility="Visible"/>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="{DynamicResource Tab_AISummary}">
+                        <Grid Background="#121212">
+                            <TextBox x:Name="SummaryTextBox"
+                                     Background="#121212" Foreground="White" BorderBrush="#3F3F46"
+                                     TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" Padding="15"
+                                     VerticalScrollBarVisibility="Auto" IsReadOnly="True"
+                                     AllowDrop="True"
+                                     PreviewDragOver="TextBox_PreviewDragOver"
+                                     PreviewDrop="TextBox_PreviewDrop"/>
+                            <TextBlock x:Name="SummaryPlaceholder"
+                                       Text="{DynamicResource Placeholder_Summary}"
+                                       Foreground="#66FFFFFF" FontSize="14"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextWrapping="Wrap" TextAlignment="Center" MaxWidth="400" Margin="20"
+                                       IsHitTestVisible="False" Visibility="Visible"/>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="{DynamicResource Tab_Help}">
+                        <Grid Background="#121212">
+                            <ScrollViewer x:Name="HelpScrollViewer" VerticalScrollBarVisibility="Auto" Margin="20,20,20,20">
+                                <StackPanel>
+									<!-- Заголовок -->
+									<TextBlock FontSize="22" FontWeight="Bold" Foreground="White" Margin="0,0,0,5">
+										Голосовед ИИ — локальный диктофон с ИИ
+									</TextBlock>
+									<TextBlock FontSize="14" Foreground="#CCCCCC" Margin="0,0,0,20">
+										Полностью офлайн, конфиденциально, без отправки данных в облако.
+									</TextBlock>
+
+									<!-- ===== ВОЗМОЖНОСТИ ===== -->
+									<TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,5">
+										🚀 Возможности
+									</TextBlock>
+									<TextBlock Foreground="#DDDDDD" Margin="10,0,0,10">
+										<Run Text="• "/>
+										<Run Text="Работа с файлами:" FontWeight="SemiBold"/>
+										<Run Text=" Аудио, Видео, PDF, TXT"/>
+										<LineBreak/>
+										<Run Text="• "/>
+										<Run Text="Запись с микрофона и системного звука" FontWeight="SemiBold"/>
+										<Run Text=" (Zoom, Teams, лекции)"/>
+										<LineBreak/>
+										<Run Text="• "/>
+										<Run Text="Распознавание речи с помощью Whisper" FontWeight="SemiBold"/>
+										<Run Text=" (локально)"/>
+										<LineBreak/>
+										<Run Text="• "/>
+										<Run Text="Создание резюме с помощью AI-модели Qwen" FontWeight="SemiBold"/>
+										<Run Text=" (локально)"/>
+										<LineBreak/>
+										<Run Text="• "/>
+										<Run Text="Сохранение распознанного Полного текста или AI-Резюме в форматы:" FontWeight="SemiBold"/>
+										<Run Text=" TXT, MD, PDF, SRT, JSON, VTT"/>
+										<LineBreak/>
+										<Run Text="• "/>
+										<Run Text="Полностью офлайн" FontWeight="SemiBold"/>
+										<Run Text=" — данные не покидают ваш компьютер"/>
+                                    </TextBlock>
+                                    <!-- ===== КОМУ ЭТО ПРИГОДИТСЯ ===== -->
+                                    <TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,5">
+                                        👥 Кому это пригодится
+                                    </TextBlock>
+                                    <TextBlock Foreground="#DDDDDD" Margin="10,0,0,10" TextWrapping="Wrap">
+                                        <Run Text="• "/>
+                                        <Run Text="Студентам и школьникам" FontWeight="SemiBold"/>
+                                        <Run Text=" — записывайте лекции, семинары и вебинары, программа превратит аудио в текст, а AI сделает краткий конспект."/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="Журналистам, блогерам и интервьюерам" FontWeight="SemiBold"/>
+                                        <Run Text=" — расшифровывайте интервью, пресс-конференции и записи звонков, получайте точный текст и резюме без ручного набора."/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="Менеджерам, руководителям и сотрудникам" FontWeight="SemiBold"/>
+                                        <Run Text=" — фиксируйте совещания и рабочие встречи, на выходе — протокол с краткими выводами и задачами."/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="Исследователям и аналитикам" FontWeight="SemiBold"/>
+                                        <Run Text=" — превращайте записи фокус-групп, интервью и полевых исследований в структурированные тексты."/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="Людям с нарушениями слуха" FontWeight="SemiBold"/>
+                                        <Run Text=" — получайте субтитры к разговорам, лекциям и видео в текстовом виде."/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="Всем, кто ценит приватность" FontWeight="SemiBold"/>
+                                        <Run Text=" — все данные обрабатываются локально, без отправки в облако. Вы полностью контролируете свои файлы."/>          
+                                    </TextBlock>
+
+                                    <!-- ===== КАК НАЧАТЬ ===== -->
+                                    <TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,5">
+                                         📖 Как начать работу
+                                    </TextBlock>
+                                    <TextBlock Foreground="#DDDDDD" Margin="10,0,0,10">
+                                        <Run Text="1. "/>
+                                        <Run Text="Убедитесь, что установлен .NET 8 Desktop Runtime" FontWeight="SemiBold"/>
+                                        <Run Text=" (если программа не запускается, скачайте с сайта Microsoft)."/>
+                                        <LineBreak/>
+                                        <Run Text="2. "/>
+                                        <Run Text="Скачайте модель распознавания (Whisper)" FontWeight="SemiBold"/>
+                                        <Run Text=" в разделе «Настройки модели распознавания»."/>
+                                        <LineBreak/>
+                                        <Run Text="3. "/>
+                                        <Run Text="Скачайте AI-модель (Qwen)" FontWeight="SemiBold"/>
+                                        <Run Text=" в разделе «AI-Резюмирование»."/>
+                                        <LineBreak/>
+                                        <Run Text="4. "/>
+                                        <Run Text="Выберите файл" FontWeight="SemiBold"/>
+                                        <Run Text=" или нажмите «Запись»."/>
+                                        <LineBreak/>
+                                        <Run Text="5. "/>
+                                        <Run Text="Нажмите «Создать AI-резюме»" FontWeight="SemiBold"/>
+                                        <Run Text=" для получения итогового отчёта."/>
+                                    </TextBlock>
+
+                                    <!-- ===== ИНТЕРФЕЙС ПРОГРАММЫ ===== -->
+                                    <TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,5">
+                                        🖥️ Интерфейс программы
+                                    </TextBlock>
+                                    <TextBlock Foreground="#DDDDDD" Margin="10,0,0,10" TextWrapping="Wrap">
+                                        <Run Text="Левая панель:" FontWeight="Bold"/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«Выбрать и распознать»" FontWeight="SemiBold"/>
+                                        <Run Text=" — открыть файл для распознавания."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«Сохранять аудио-оригинал»" FontWeight="SemiBold"/>
+                                        <Run Text=" — сохранять исходное аудио при распознавании файлов."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«Системный звук / Микрофон»" FontWeight="SemiBold"/>
+                                        <Run Text=" — выбор источника записи."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«Запись» / «Стоп»" FontWeight="SemiBold"/>
+                                        <Run Text=" — начать и остановить запись."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«Сохранять аудио при записи»" FontWeight="SemiBold"/>
+                                        <Run Text=" — сохранять записанное аудио отдельным файлом."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Выпадающий список моделей распознавания" FontWeight="SemiBold"/>
+                                        <Run Text=" — выбор Whisper (Base–Large)."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Выпадающий список языка" FontWeight="SemiBold"/>
+                                        <Run Text=" — выбор языка распознавания (RU, EN, DE, и др.)."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«Скачать»" FontWeight="SemiBold"/>
+                                        <Run Text=" — загрузка выбранной модели распознавания или AI-модели."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Выпадающий список AI-модели" FontWeight="SemiBold"/>
+                                        <Run Text=" — выбор языковой модели для резюмирования."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Поле и кнопка «Обзор»" FontWeight="SemiBold"/>
+                                        <Run Text=" — указать папку для сохранения аудио."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Правая панель (вкладки):" FontWeight="Bold"/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«📄 Полный текст»" FontWeight="SemiBold"/>
+                                        <Run Text=" — отображение распознанного текста."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«🧠 AI-Резюме»" FontWeight="SemiBold"/>
+                                        <Run Text=" — отображение сгенерированного резюме."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«❓ Справка»" FontWeight="SemiBold"/>
+                                        <Run Text=" — эта страница с инструкцией."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Кнопка «☀️/🌙»" FontWeight="SemiBold"/>
+                                        <Run Text=" — переключение между тёмной и светлой темой для содержимого вкладок «Полный текст», «AI-Резюме» и «Справка». Состояние сохраняется при перезапуске."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Нижняя панель (экспорт и резюме):" FontWeight="Bold"/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«🧠 Создать AI-резюме»" FontWeight="SemiBold"/>
+                                        <Run Text=" — сгенерировать резюме на основе текущего текста."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Выпадающий список «Шаблон»" FontWeight="SemiBold"/>
+                                        <Run Text=" — выбор стиля резюме (Совещание, Интервью, Лекция, Общий)."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Выпадающий список «Формат»" FontWeight="SemiBold"/>
+                                        <Run Text=" — выбор формата для сохранения (TXT, MD, SRT, JSON, VTT, PDF)."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="«💾 Сохранить как...»" FontWeight="SemiBold"/>
+                                        <Run Text=" — сохранить текущий результат в выбранном формате."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Статус-бар:" FontWeight="Bold"/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Прогресс-бар" FontWeight="SemiBold"/>
+                                        <Run Text=" — отображает ход распознавания или генерации."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Кнопка «Отмена»" FontWeight="SemiBold"/>
+                                        <Run Text=" — прервать текущую операцию."/>
+                                        <LineBreak/>
+                                        <Run Text="  • "/>
+                                        <Run Text="Текстовое поле статуса" FontWeight="SemiBold"/>
+                                        <Run Text=" — показывает текущее состояние программы."/>
+                                    </TextBlock>
+
+                                    <!-- ===== ГДЕ ХРАНЯТСЯ МОДЕЛИ, НАСТРОЙКИ И ПАПКА ПО УМОЛЧАНИЮ АУДИО ===== -->
+                                    <TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,5">
+                                        💾 Где хранятся модели, настройки и папка по умолчанию аудио
+                                    </TextBlock>
+                                    <TextBlock Foreground="#DDDDDD" Margin="10,0,0,10" TextWrapping="Wrap">
+                                        <Run Text="Модели и настройки:" FontWeight="SemiBold"/>
+                                        <LineBreak/>
+                                        <Run Text="Скачанные модели (Whisper и Qwen) и файл настроек settings.json сохраняются в папке пользователя:"/>
+                                        <LineBreak/>
+                                        <Run Text="C:\Users\Имя_пользователя\AppData\Roaming\GolosovedAI"/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="При удалении программы через стандартный установщик папка %AppData%\GolosovedAI автоматически удаляется (для текущего пользователя)."/>
+                                        <LineBreak/>
+                                        <Run Text="Если вы хотите сохранить скачанные модели или настройки после деинсталляции, скопируйте их в другое место заранее."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Сохранение аудио:" FontWeight="SemiBold"/>
+                                        <LineBreak/>
+                                        <Run Text="Если вы включили опцию «Сохранять аудио-оригинал» (для файлов) или «Сохранять аудио при записи» (для записи), аудиофайлы сохраняются:"/>
+                                        <LineBreak/>
+                                        <Run Text="• Для файлов — рядом с исходным файлом (в той же папке)."/>
+                                        <LineBreak/>
+                                        <Run Text="• Для записи — в папку Records внутри папки с программой (если не указана своя папка)."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Вы можете указать свою папку для сохранения аудио в поле «Сохранение аудио» внизу левой панели."/>
+                                    </TextBlock>
+
+                                    <!-- ===== СИСТЕМНЫЕ ТРЕБОВАНИЯ ===== -->
+                                    <TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,10,0,5">
+                                        💻 Системные требования
+                                    </TextBlock>
+                                    <TextBlock Foreground="#DDDDDD" Margin="10,0,0,10">
+                                        <Run Text="• "/>
+                                        <Run Text="Windows 10/11" FontWeight="SemiBold"/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text=".NET 8 Desktop Runtime" FontWeight="SemiBold"/>
+                                        <Run Text=" (требуется для работы, скачайте с сайта Microsoft)"/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="4 ГБ ОЗУ" FontWeight="SemiBold"/>
+                                        <Run Text=" (рекомендуется 8 ГБ)"/>
+                                        <LineBreak/>
+                                        <Run Text="• "/>
+                                        <Run Text="Для AI-модели — 4 ГБ свободного места" FontWeight="SemiBold"/>
+                                    </TextBlock>
+                                    <!-- ===== ПОДДЕРЖАТЬ ПРОЕКТ ===== -->
+                                    <Border x:Name="DonateBorder" Background="#2A2A2A" CornerRadius="6" Padding="10" Margin="0,15,0,0">
+                                        <StackPanel>
+                                            <TextBlock FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,0,0,5">
+                                        ☕️ Поддержать проект
+                                            </TextBlock>
+                                            <TextBlock Foreground="#DDDDDD" FontSize="13" Margin="0,0,0,10" TextWrapping="Wrap">
+                                            Программа полностью бесплатна и создаётся одним автором.
+                                            Если она экономит ваше время, вы можете угостить разработчика кофе!
+                                            </TextBlock>
+                                            <Button x:Name="DonateButton" Content="❤️ Поддержать"
+                                            Background="#DA3633" Foreground="White" Padding="15,8" 
+                                            FontWeight="Bold" BorderThickness="0" HorizontalAlignment="Center"
+                                            Click="DonateButton_Click" Cursor="Hand"
+                                            Focusable="False"/>
+                                            <!-- QR-код -->
+                                            <Image x:Name="DonateQRImage" Width="150" Height="150" 
+                                       HorizontalAlignment="Center" Margin="0,10,0,0" 
+                                       ToolTip="Отсканируйте QR-код телефоном для быстрой оплаты"
+                                       Focusable="False"/>
+                                            <TextBlock Foreground="#858585" FontSize="11" Margin="0,5,0,0" TextAlignment="Center">
+                                        Или отсканируйте QR-код камерой телефона
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- ===== ИНФОРМАЦИЯ О ВЕРСИИ ===== -->
+                                    <Border x:Name="VersionBorder" Background="#2A2A2A" CornerRadius="6" Padding="10" Margin="0,15,0,0">
+                                        <TextBlock Foreground="#AAAAAA" FontSize="12">
+											<Run Text="Автор: Rusanov.W" />
+											<LineBreak/>
+											<Run Text="Версия: 1.0" />
+											<LineBreak/>
+											<Run Text="Лицензия: MIT (открытый исходный код)" />
+                                            <LineBreak/>
+                                            <Run Text="Обратная связь: rusanov.w@gmail.com" />
+                                        </TextBlock>
+									</Border>
+								</StackPanel>
+							</ScrollViewer>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+                <ToggleButton x:Name="ThemeToggle" Grid.Column="1" 
+                              Content="☀️" Width="30" Height="30" 
+                              Margin="0,0,0,0" VerticalAlignment="Top"
+                              ToolTip="Переключить тему"
+                              Click="ThemeToggle_Click"
+                              Focusable="False"/>
+            </Grid>
+
+            <!-- Панель экспорта и AI -->
+            <Border Grid.Row="1" Background="#252526" BorderBrush="#3F3F46" BorderThickness="1"
+                    CornerRadius="4" Margin="0,15,0,0" Padding="10">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="GenerateSummaryButton" Content="{DynamicResource Button_GenerateSummary}"
+                                Background="#6200EE" Foreground="White" Padding="15,8" FontWeight="Bold" BorderThickness="0"
+                                Click="GenerateSummary_Click" Margin="0,0,10,0"/>
+                        <TextBlock Text="{DynamicResource Label_Template}" Foreground="White" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <ComboBox x:Name="TemplateCombo" Width="100" Height="25" Background="#333337" Foreground="White" BorderBrush="#3F3F46">
+                            <ComboBoxItem Content="{DynamicResource Template_Meeting}" IsSelected="True"/>
+                            <ComboBoxItem Content="{DynamicResource Template_Interview}"/>
+                            <ComboBoxItem Content="{DynamicResource Template_Lecture}"/>
+                            <ComboBoxItem Content="{DynamicResource Template_General}"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="{DynamicResource Label_Format}" Foreground="White" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="FormatCombo" Width="80" Height="30" Background="#333337" Foreground="White" BorderBrush="#3F3F46" Margin="0,0,10,0">
+                            <ComboBoxItem Content="TXT" IsSelected="True" Tag="txt"/>
+                            <ComboBoxItem Content="MD" Tag="md"/>
+                            <ComboBoxItem Content="SRT" Tag="srt"/>
+                            <ComboBoxItem Content="JSON" Tag="json"/>
+                            <ComboBoxItem Content="VTT" Tag="vtt"/>
+                            <ComboBoxItem Content="PDF" Tag="pdf"/>
+                        </ComboBox>
+                        <Button x:Name="ButtonSaveAs" Content="{DynamicResource Button_SaveAs}" Background="#3E3E42" Foreground="White" Padding="15,8" BorderThickness="0"
+                                Click="SaveResultAs_Click"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Статус-бар -->
+            <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                <ProgressBar x:Name="ProcessingProgress" Height="15" Minimum="0" Maximum="100" Visibility="Collapsed"/>
+                <Button x:Name="CancelButton" Content="❌ Отмена"
+                        Background="#DA3633" Foreground="White" FontWeight="Bold"
+                        HorizontalAlignment="Center" Padding="30,8" Margin="0,5,0,0"
+                        Visibility="Collapsed" Click="CancelButton_Click"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <TextBlock Text="{DynamicResource Status_Label}" Foreground="#858585" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="StatusText" Text="{DynamicResource Status_Default}" Foreground="#007ACC" FontWeight="Bold" Margin="5,0,20,0"/>
+                    <TextBlock x:Name="RecordingStatus" Text="" Foreground="#858585" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
