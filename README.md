@@ -43,6 +43,10 @@
 4. Выберите файл или нажмите «Запись».
 5. Нажмите «Создать AI‑резюме».
 
+## 🎥 Видеообзор
+
+[![Видеообзор](https://img.youtube.com/vi/d2DKVnj7P40/maxresdefault.jpg)](https://youtu.be/d2DKVnj7P40)   
+
 ## 💻 Системные требования
 
 - Windows 10/11
