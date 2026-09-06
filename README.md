@@ -11,7 +11,7 @@
 
 ## Окно программы
 
-<img width="1084" height="818" alt="Скриншот" src="https://github.com/user-attachments/assets/181e1c28-1416-4c44-9c88-df1efe3c5963" />
+<img width="1083" height="823" alt="Безымянный1" src="https://github.com/user-attachments/assets/40cd1c7d-96e7-4a5e-9e7c-9affd64dc4a3" />
 
 ---
 
