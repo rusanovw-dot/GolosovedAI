@@ -1,3 +1,4 @@
+<img width="1083" height="823" alt="Безымянный1" src="https://github.com/user-attachments/assets/1565b753-c89d-41d5-9e37-1e41524c9bc2" />
 # 🎙️ Голосовед ИИ
 
 **Локальный диктофон с распознаванием речи и AI‑резюмированием**  
@@ -11,7 +12,7 @@
 
 ## Окно программы
 
-<img width="1084" height="818" alt="Скриншот" src="https://github.com/user-attachments/assets/181e1c28-1416-4c44-9c88-df1efe3c5963" />
+<img width="1084" height="818" alt="Скриншот" src="<img width="1083" height="823" alt="Безымянный1" src="https://github.com/user-attachments/assets/6f749e8d-1dfa-40aa-8e91-fdd895543b1d" />" />
 
 ---
 
