@@ -1,104 +1,104 @@
-# 🎙️ Голосовед ИИ
+# 🎙️ Golosoved AI
 
-**Локальный диктофон с распознаванием речи и AI‑резюмированием**  
-Полностью офлайн, конфиденциально, без отправки данных в облако.
+**Local voice recorder with speech recognition and AI summarization**  
+Fully offline, confidential, no data sent to the cloud.
 
-## 📥 Скачать
+## 📥 Download
 
-**[![Download](https://img.shields.io/badge/Скачать-GolosovedAI_Setup_v1.0.1.exe-brightgreen)](https://github.com/rusanovw-dot/GolosovedAI/releases/download/v1.0.1/GolosovedAI_Setup_v1.0.1.exe)**
+[![Download](https://img.shields.io/badge/Download-GolosovedAI_Setup_v1.0.1.exe-brightgreen)](https://github.com/rusanovw-dot/GolosovedAI/releases/download/v1.0.1/GolosovedAI_Setup_v1.0.1.exe)
 
-> **Версия 1.0.1** – добавлена полная локализация (русский/английский), исправлены ошибки, предотвращён запуск нескольких экземпляров программы.
+> **Version 1.0.1** – full localization (Russian/English), bug fixes, single-instance protection.
 
-## Окно программы
+## Screenshot
 
-<img width="1083" height="823" alt="Безымянный1" src="https://github.com/user-attachments/assets/40cd1c7d-96e7-4a5e-9e7c-9affd64dc4a3" />
-
----
-
-## ✨ Возможности
-
-- 📂 Работа с файлами: **Аудио, Видео, PDF, TXT** (перетаскивание в окно)
-- 🎙️ Запись с **микрофона** и **системного звука** (Zoom, Teams, лекции)
-- 🗣️ Распознавание речи с помощью **Whisper** (локально, модели Base–Large)
-- 🧠 Создание резюме с помощью **AI‑модели Qwen** (локально, 4 шаблона)
-- 💾 Сохранение Полного текста или AI‑Резюме в форматы: **TXT, MD, PDF, SRT, JSON, VTT**
-- 🌙 Переключение тёмной / светлой темы интерфейса
-- 🔒 **Полностью офлайн** — все данные обрабатываются на вашем компьютере
-- 🚫 **Защита от повторного запуска** – при попытке открыть второе окно активируется уже запущенное
-
-## 👥 Кому это пригодится
-
-- **Студентам** – записывайте лекции, получайте конспект.
-- **Журналистам и блогерам** – расшифровывайте интервью.
-- **Менеджерам** – фиксируйте совещания с кратким итогом.
-- **Исследователям** – структурируйте полевые записи.
-- **Людям с нарушениями слуха** – получайте субтитры.
-- **Всем, кто ценит приватность** – данные не покидают ваш компьютер.
-
-## 📖 Как начать работу
-
-1. Установите **.NET 8 Desktop Runtime** (если программа не запускается, скачайте с [сайта Microsoft](https://dotnet.microsoft.com/ru-ru/download/dotnet/thank-you/sdk-8.0.424-windows-x64-installer)).
-2. Скачайте модель распознавания (Whisper) в разделе «Настройки модели распознавания».
-3. Скачайте AI‑модель (Qwen) в разделе «AI‑Резюмирование».
-4. Выберите файл или нажмите «Запись».
-5. Нажмите «Создать AI‑резюме».
-
-## 🎥 Видеообзор
-
-[![Видеообзор](https://img.youtube.com/vi/d2DKVnj7P40/maxresdefault.jpg)](https://youtu.be/d2DKVnj7P40)  
-
-## 🖥️ Интерфейс программы (кратко)
-
-**Левая панель:**
-- «Выбрать и распознать» — открыть файл.
-- «Сохранять аудио‑оригинал» — сохранять исходное аудио при распознавании.
-- «Системный звук / Микрофон» — выбор источника записи.
-- «Запись» / «Стоп» — управление записью.
-- «Сохранять аудио при записи» — сохранять записанное аудио отдельным файлом.
-- Выбор модели Whisper и языка распознавания.
-- Кнопка «Скачать» для загрузки моделей.
-- Поле и кнопка «Обзор» — указать папку для сохранения аудио.
-
-**Правая панель (вкладки):**
-- «📄 Полный текст» — отображение распознанного текста.
-- «🧠 AI‑Резюме» — отображение сгенерированного резюме.
-- «❓ Справка» — инструкция.
-- Кнопка «☀️/🌙» — переключение темы (сохраняется при перезапуске).
-
-**Нижняя панель:**
-- «🧠 Создать AI‑резюме» — генерация резюме.
-- Выбор шаблона (Совещание, Интервью, Лекция, Общий).
-- Выбор формата для сохранения (TXT, MD, SRT, JSON, VTT, PDF).
-- «💾 Сохранить как...» — сохранение текущего результата.
-
-**Статус‑бар:** прогресс‑бар, кнопка «Отмена», текстовое поле статуса.
+<img width="1083" height="823" alt="Screenshot" src="https://github.com/user-attachments/assets/40cd1c7d-96e7-4a5e-9e7c-9affd64dc4a3" />
 
 ---
 
-## 💾 Где хранятся модели, настройки и папка по умолчанию аудио
+## ✨ Features
 
-**Модели и настройки**  
-Скачанные модели (Whisper и Qwen) и файл настроек `settings.json` сохраняются в папке пользователя:
-C:\Users\Имя_пользователя\AppData\Roaming\GolosovedAI
-При удалении программы через установщик эта папка автоматически удаляется (для текущего пользователя). Если вы хотите сохранить модели или настройки после деинсталляции — скопируйте их в другое место заранее.
+- 📂 **File support:** Audio, Video, PDF, TXT (drag‑and‑drop)
+- 🎙️ **Recording:** Microphone and system sound (Zoom, Teams, lectures)
+- 🗣️ **Speech recognition:** Whisper (local, Base–Large models)
+- 🧠 **AI summarization:** Qwen (local, 4 templates)
+- 💾 **Export:** Full text or AI Summary to TXT, MD, PDF, SRT, JSON, VTT
+- 🌙 **Dark / Light theme** (toggle, saved between sessions)
+- 🔒 **Fully offline** – your data never leaves your computer
+- 🚫 **Single instance** – prevents multiple windows
 
-**Сохранение аудио**  
-- Для файлов (если включена опция «Сохранять аудио‑оригинал») — аудио сохраняется рядом с исходным файлом.
-- Для записи (если включена опция «Сохранять аудио при записи») — в папку `Records` внутри папки с программой (если не указана своя папка).
+## 👥 Who can benefit
 
-Вы можете указать свою папку для сохранения аудио в поле «Сохранение аудио» внизу левой панели.
+- **Students** – record lectures, get transcripts and concise summaries.
+- **Journalists & bloggers** – transcribe interviews without manual typing.
+- **Managers** – capture meetings with key conclusions.
+- **Researchers** – turn field recordings into structured text.
+- **People with hearing impairments** – get subtitles for conversations.
+- **Privacy‑conscious users** – no cloud upload, full control.
 
-## 💻 Системные требования
+## 📖 Getting started
+
+1. Install **.NET 8 Desktop Runtime** (if the program doesn't start, download from [Microsoft](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.0-windows-x64-installer)).
+2. Download the recognition model (Whisper) in the **Recognition Model Settings** section.
+3. Download the AI model (Qwen) in the **AI Summarization** section.
+4. Select a file or click **Record**.
+5. Click **Generate AI Summary** to get the final report.
+
+## 🎥 Video overview
+
+[![Video overview](https://img.youtube.com/vi/d2DKVnj7P40/maxresdefault.jpg)](https://youtu.be/d2DKVnj7P40)
+
+## 🖥️ Interface overview
+
+**Left panel:**
+- "Select and Recognize" – open a file.
+- "Save original audio" – save original audio during recognition.
+- "System sound / Microphone" – select recording source.
+- "Record" / "Stop" – control recording.
+- "Save audio on record" – save recorded audio as a separate file.
+- Whisper model and language selection.
+- "Download" button for models.
+- Folder field and "Browse" – specify audio save folder.
+
+**Right panel (tabs):**
+- "📄 Full Text" – recognized text.
+- "🧠 AI Summary" – generated summary.
+- "❓ Help" – instructions.
+- "☀️/🌙" button – toggle theme (saved between sessions).
+
+**Bottom panel:**
+- "🧠 Generate AI Summary" – generate summary.
+- Template selection (Meeting, Interview, Lecture, General).
+- Format selection (TXT, MD, SRT, JSON, VTT, PDF).
+- "💾 Save as..." – save current result.
+
+**Status bar:** progress bar, Cancel button, status text.
+
+---
+
+## 💾 Where models and settings are stored
+
+**Models and settings**  
+Downloaded models (Whisper and Qwen) and `settings.json` are saved in the user folder:
+`C:\Users\YourUsername\AppData\Roaming\GolosovedAI`
+When uninstalling via the installer, this folder is automatically removed (for the current user). If you want to keep models or settings after uninstallation, copy them elsewhere beforehand.
+
+**Audio saving**  
+- For files (if "Save original audio" is enabled) – audio is saved next to the original file.
+- For recording (if "Save audio on record" is enabled) – saved to the `Records` folder inside the program folder (unless a custom folder is specified).
+
+You can specify your own folder in the "Save audio" field at the bottom of the left panel.
+
+## 💻 System requirements
 
 - Windows 10/11
 - .NET 8 Desktop Runtime
-- 4 ГБ ОЗУ (рекомендуется 8 ГБ)
-- ~4 ГБ свободного места для моделей
+- 4 GB RAM (8 GB recommended)
+- ~4 GB free disk space for models
 
-## 📄 Лицензия
+## 📄 License
 
-MIT. Подробнее в файле [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE) for details.
 
-## 💝 Поддержать проект
+## 💝 Support the project
 
 [pay.cloudtips.ru/p/31f0f59a](https://pay.cloudtips.ru/p/31f0f59a)
