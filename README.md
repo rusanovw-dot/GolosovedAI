@@ -1,4 +1,4 @@
-# 🎙️ Golosoved AI
+# 🎙️ Голосовед ИИ
 
 **Local voice recorder with speech recognition and AI summarization**  
 Fully offline, confidential, no data sent to the cloud.
